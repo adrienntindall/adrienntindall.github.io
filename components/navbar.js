@@ -10,6 +10,8 @@ class NavBar extends HTMLElement {
                 ul {
                     list-style-type: none;
                     margin: 0;
+                    margin-left: 7%;
+                    margin-right: 7%;
                     padding: 0;
                     overflow: hidden;
                     background-color: #333;
@@ -63,11 +65,11 @@ class NavBar extends HTMLElement {
             </style>
         </header>
         <ul>
-          <li><a href="#home">Home</a></li>
+          <li><a href="/">Home</a></li>
             <li class = "dropdown">
                 <a href="#mods" class="dropbtn">Modding</a>
                 <div class="dropdown-content">
-                  <a href="modding/map_randomizer.html">HGSS Map Randomizer</a>
+                  <a href="/modding/map_randomizer.html">HGSS Map Randomizer</a>
                   <a href="#plat-coop"> Platinum Co-op (coming soon) </a>
                   <a href="#emerald-no-ai">Emerald no AI</a>
                   <a href="#frlg-hide-and-seek">FRLG Hide and Seek</a>

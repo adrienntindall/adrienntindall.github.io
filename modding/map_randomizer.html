@@ -1,13 +1,73 @@
 <html>
-    <script src="components/navbar.js" type="/text/javascript" defer></script>
+    <script src="/components/navbar.js" type="text/javascript" defer></script>
     <head>
 		<title> AdriennSn - Pokemon Map Randomizer </title>
         <link rel="stylesheet" href="/style/style.css"></link>
 		<nav-bar></nav-bar>
     </head>
+    <div class="main">
+    
+    <iframe src="https://youtu.be/t0m9JeMvb8c?si=afJRicSYPDhbFfzM">
+    
+    </iframe>
+    
     <p>
-    image or video of randomizer in action
-    embedded link to smants video
-    algorithm description (with visuals)
+    In 2022 when I was taking a break from school due to personal health complications, I decided to try out modding for the first time and ended up making the Heart Gold and Soul Silver map randomizer as my first ever project! Special thanks goes to AtSign, who helped me get the program to run independent of the pret/pokeheartgold repository that I initially built it off of. Later, using the same code and algorithms, I was able to make the Black 2 and White 2 map randomizer, similar to the one made by my friend TurtleIsaac (who beat me to finishing it!) though with a bit less of a dedicated interface and a bit more options to make experiences unique.
     </p>
+    
+    <p>
+    The algorithm used is a custom one I developed using some basic graph theory elements and some fittingly named file types to organize the data in a nice and succinct way. 
+    </p>
+    
+    <h1> <img src="/images/modding/map_randomizer/pinkapricorn.png" alt="PNK APRICORN" width="60" height="60"> </img> .pnk files <img src="/images/modding/map_randomizer/pinkapricorn.png" alt="PNK APRICORN" width="60" height="60"> </img> </h1>
+    <p> 
+    Defines the progression of the randomizer, with a series of specific map names and flags that must be able to be reached in order for a randomization to be "completable." Every randomization instance must have each map and flag be reachable in order, and generating a map that adheres to the .pnk file specifications is the main problem at the heart of the randomization process.
+    </p>
+    
+    <h1> <img src="/images/modding/map_randomizer/blueapricorn.png" alt="BLU APRICORN" width="60" height="60"> </img> .blu files <img src="/images/modding/map_randomizer/blueapricorn.png" alt="BLU APRICORN" width="60" height="60"> </img> </h1>
+    <p>
+    Similar to the .pnk files, but specifically for defining a flag. The flag to define is labeled at the top of the file, with everything following being the required steps to "turn on" the flag before it gets used elsewhere. This is useful for defining otherwise complicated progression locks, like a sidequest in the story that needs to be completed before a warp is able to be opened or the requirements for getting and being able to use an HM like Surf or Cut.
+    </p>
+    
+    <h1> <img src="/images/modding/map_randomizer/blackapricorn.png" alt="BLK APRICORN" width="60" height="60"> </img>.blk files <img src="/images/modding/map_randomizer/blackapricorn.png" alt="BLK APRICORN" width="60" height="60"> </img> </h1>
+    <p>
+    Defines a block of warp points reachable from one another. For example, a town's .blk file will consist of each house's entrance, as well as each route gate accessible from the town square. Occassionally warp points are blocked off by barriers, like water (which requires surf) or story events, and flags (denoted by the prefix FLAG_) will be used between groups of warps to denote the inaccessiblity. See .blu files for more information on how flags get defined.
+    </p>
+    
+    <h1> <img src="/images/modding/map_randomizer/redapricorn.png" alt="RED APRICORN" width="60" height="60"> </img>.red files <img src="/images/modding/map_randomizer/redapricorn.png" alt="RED APRICORN" width="60" height="60"> </img> </h1>
+    <p>
+    "<u>Re</u>quired <u>d</u>ead end" files are a list of "dead end" locations that will be included in every single instance of randomization. Usually these are relevant to activate certain flags, or are important locations like gyms.
+    </p>
+    
+    <h1> <img src="/images/modding/map_randomizer/greenapricorn.png" alt="GRN APRICORN" width="60" height="60"> </img>.grn files<img src="/images/modding/map_randomizer/greenapricorn.png" alt="GRN APRICORN" width="60" height="60"> </img> </h1>
+    <p>
+    "Garbage dead end" files are a list of "dead end" locations that are able to be excluded from an instance or randomization without meaningfully changing the experience. Often these are just NPC houses or scenic locations with a rare candy or full restore that are nice to find, but won't help or hinder progress all that much.
+    </p>
+    
+    <h1> The Algorithm </h1>
+    <p>
+    Randomization starts in the player's home town, using the .blk file associated with it as the base. 
+    </p>
+    <p>
+    Part 1 of the randomization is intializing our base map by randomly joining together each warp that appears in a .blk file 
+    1) choose a random unused warp from among our current randomized map. 2) Choose a random unused warp from the list of all unused warps (both the ones already in our map and the ones not in it) and attach it to a warp on our map. This is done with direction, since certain .blk files will have one way warps due to ledges or other one way barriers, and for other reasons explained in step 3.
+    3) if we have no more free warps in our map, we take a random warp from the unused list and "insert" it into a random point on the map. This is the main reason why we have a directed graph, since insertion when done improperly can lead to isolated regions that aren't ever able to be accessed. Luckily, if we know a bit of graph theory, we can use the property that these isolated regions can't be created if we only attach new regions to the warps going in-direction. (note: do proof on your own and put it below)
+    </p>
+    
+    <p>
+    Part 2 of the randomization is replacing any .grn rooms we have with .red rooms, if there are unused .red rooms. Luckily since these are all dead ends, the logic is easy and doesn't require anything fancy.
+    </p>
+    
+    <p>
+    Part 3 is checking our seed for what .blu flags are avaliable as part of our randomization. Some aren't going to be needed (you can surprsingly beat the game without ever using Strength if the seed is good enough!) but it is nice to know what is and isn't accessible before we do our main progression check.
+    </p>
+    
+    <p>
+    Part 4 is the final part of the algorithm and where a bulk of the processing power goes, since it's the check and re-randomization to make sure the game is completable. Luckily this is easy, since we can just swap out any progression with our .grn rooms without impacting the check done in our previous part. It goes through the whole list of .grn rooms at random and inserts a progression room until it finds one that works for completion. If none are found, we just start back from the first part, but this scenario is unlikely. 
+    </p>
+    
+    <p>
+    And that's it! It's an algorithm I made in a week and refined over the course of a few months, but I've found it does a really good job at what I need it to do, and also let me put some of my mathematics knowledge to good use. Overall it was a fun project, and I'm happy it was the first one I did, since it got me used to modding in a context I'm more familiar with (ie math programming), and introduced me to the pret organization, which I'm currently a maintainer on! 
+    </p>
+    </div>
 </html>
