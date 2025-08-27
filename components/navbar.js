@@ -54,7 +54,10 @@ class NavBar extends HTMLElement {
                   text-align: left;
                 }
 
-                .dropdown-content a:hover {background-color: #f1f1f1;}
+                .dropdown-content a:hover {
+                    background-color: #f1f1f1;
+                    color: pink;
+                }
 
                 .dropdown:hover .dropdown-content {
                   display: block;
@@ -63,6 +66,12 @@ class NavBar extends HTMLElement {
         </header>
         <ul>
           <li><a href="/">Home</a></li>
+            <li class = "dropdown">
+                <a href="/math.html" class="dropbtn">Math</a>
+                <div class="dropdown-content">
+                  <a href="#quantumn-mechanics">Quantumn Mechanics</a>
+                </div>
+            </li>
             <li class = "dropdown">
                 <a href="#mods" class="dropbtn">Modding</a>
                 <div class="dropdown-content">
