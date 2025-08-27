@@ -32,10 +32,7 @@ class NavBar extends HTMLElement {
                 .active {
                   background-color: #04AA6D;
                 }
-                li a:hover, .dropdown:hover .dropbtn {
-                  background-color: red;
-                }
-
+               
                 li.dropdown {
                   display: inline-block;
                 }
@@ -76,7 +73,7 @@ class NavBar extends HTMLElement {
                   <a href="#b2w2-plush">B2W2 Plushie Mode</a>
                 </div>
             </li>
-          <li><a href="#contact">Contact</a></li>
+          <li><a href="/contact.html">Contact</a></li>
           <li style="float:right"><a class="active" href="#about">About</a></li>
         </ul>
         `
