@@ -73,7 +73,7 @@ class NavBar extends HTMLElement {
                 </div>
             </li>
             <li class = "dropdown">
-                <a href="#mods" class="dropbtn">Modding</a>
+                <a href="/modding.html" class="dropbtn">Modding</a>
                 <div class="dropdown-content">
                   <a href="/modding/map_randomizer.html">HGSS Map Randomizer</a>
                   <a href="#plat-coop"> Platinum Co-op (coming soon) </a>
