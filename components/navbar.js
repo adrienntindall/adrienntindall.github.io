@@ -77,7 +77,7 @@ class NavBar extends HTMLElement {
                 <div class="dropdown-content">
                   <a href="/modding/map_randomizer.html">HGSS Map Randomizer</a>
                   <a href="#plat-coop"> Platinum Co-op (coming soon) </a>
-                  <a href="#emerald-no-ai">Emerald no AI</a>
+                  <a href="/modding/emerald_no_ai.html">Emerald no AI</a>
                   <a href="#frlg-hide-and-seek">FRLG Hide and Seek</a>
                   <a href="#b2w2-plush">B2W2 Plushie Mode</a>
                 </div>
